@@ -82,47 +82,59 @@ class _NotesPageState extends State<NotesPage> {
     final noteDatabase = context.watch<NoteDatabase>();
 
     List<Note> currentNotes = noteDatabase.currentNotes;
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        foregroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
-      backgroundColor: Theme.of(context).colorScheme.background,
-      floatingActionButton: FloatingActionButton(
-        onPressed: createNote,
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        child: Icon(
-          Icons.add,
-          color: Theme.of(context).colorScheme.inversePrimary,
-        ),
-      ),
-      drawer: const MyDrawer(),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: Text(
-              "Notlarım",
-              style: GoogleFonts.dmSerifText(
-                  fontSize: 50,
-                  color: Theme.of(context).colorScheme.inversePrimary),
+    return SafeArea(
+      child: Scaffold(
+        // appBar: AppBar(
+        //   elevation: 0,
+        //   backgroundColor: Colors.transparent,
+        //   foregroundColor: Theme.of(context).colorScheme.inversePrimary,
+        // ),
+        backgroundColor: Theme.of(context).colorScheme.background,
+        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(top: 30, right: 15),
+          child: FloatingActionButton(
+            onPressed: createNote,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            child: Icon(
+              Icons.add,
+              color: Theme.of(context).colorScheme.inversePrimary,
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-                itemCount: currentNotes.length,
-                itemBuilder: (context, index) {
-                  final note = currentNotes[index];
-                  return NoteTile(
-                    text: note.text,
-                    onEditPressed: () => updateNote(note),
-                    onDeletePressed: () => deleteNote(note.id),
-                  );
-                }),
-          ),
-        ],
+        ),
+        //drawer: const MyDrawer(),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 25, top: 30),
+              child: Text(
+                "Notlarım",
+                style: GoogleFonts.dmSerifText(
+                    fontSize: 50,
+                    color: Theme.of(context).colorScheme.inversePrimary),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Expanded(
+              child: ListView.builder(
+                  itemCount: currentNotes.length,
+                  itemBuilder: (context, index) {
+                    final note = currentNotes[index];
+                    return NoteTile(
+                      text: note.text,
+                      onEditPressed: () => updateNote(note),
+                      onDeletePressed: () => deleteNote(note.id),
+                    );
+                  }),
+            ),
+            SizedBox(
+              height: 20,
+            )
+          ],
+        ),
       ),
     );
   }
